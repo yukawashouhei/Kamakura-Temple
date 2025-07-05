@@ -9,38 +9,18 @@ import SwiftUI
 
 struct LocationMapAnnotationView: View {
     
+    let location: Location
     let accentColor = Color("AccentColor")
     
     var body: some View {
         VStack(spacing: 0) {
-            Image(systemName: "building.columns.fill")
+            Image(location.category.pinImageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 28, height: 28)
-                .foregroundColor(.white)
-                .padding(8)
-                .background(
-                    LinearGradient(
-                        colors: [Color.orange, Color.red],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .clipShape(Circle())
-                .overlay(
-                    Circle()
-                        .stroke(Color.white, lineWidth: 2)
-                )
+                .frame(width: 32, height: 32)
                 .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
             
-            Image(systemName: "triangle.fill")
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(Color.orange)
-                .frame(width: 12, height: 12)
-                .rotationEffect(Angle(degrees:180))
-                .offset(y: -3)
-                .padding(.bottom, 40)
+            // Remove the triangle since we're using custom pin images
         }
     }
 }
@@ -48,6 +28,6 @@ struct LocationMapAnnotationView: View {
 #Preview {
     ZStack {
         Color.black.ignoresSafeArea()
-        LocationMapAnnotationView()
+        LocationMapAnnotationView(location: LocationsDataService.locations.first!)
     }
 }

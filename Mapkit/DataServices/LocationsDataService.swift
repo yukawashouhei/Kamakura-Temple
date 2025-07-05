@@ -21,7 +21,8 @@ class LocationsDataService {
                 "tsurugaoka-hachimangu-2",
                 "tsurugaoka-hachimangu-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E9%B6%B4%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE"),
+            link: "https://ja.wikipedia.org/wiki/%E9%B6%B4%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE",
+            category: .shrine),
         Location(
             name: "建長寺",
             cityName: "山ノ内",
@@ -32,7 +33,8 @@ class LocationsDataService {
                 "kenchoji-2",
                 "kenchoji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E5%BB%BA%E9%95%B7%E5%AF%BA"),
+            link: "https://ja.wikipedia.org/wiki/%E5%BB%BA%E9%95%B7%E5%AF%BA",
+            category: .temple),
         Location(
             name: "長谷寺",
             cityName: "長谷",
@@ -43,7 +45,8 @@ class LocationsDataService {
                 "hasedera-2",
                 "hasedera-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E9%95%B7%E8%B0%B7%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)"),
+            link: "https://ja.wikipedia.org/wiki/%E9%95%B7%E8%B0%B7%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)",
+            category: .temple),
         Location(
             name: "円覚寺",
             cityName: "山ノ内",
@@ -54,7 +57,8 @@ class LocationsDataService {
                 "engakuji-2",
                 "engakuji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E5%86%86%E8%A6%9A%E5%AF%BA"),
+            link: "https://ja.wikipedia.org/wiki/%E5%86%86%E8%A6%9A%E5%AF%BA",
+            category: .temple),
         Location(
             name: "高徳院",
             cityName: "長谷",
@@ -65,7 +69,8 @@ class LocationsDataService {
                 "kotokuin-2",
                 "kotokuin-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E9%AB%98%E5%BE%B3%E9%99%A2"),
+            link: "https://ja.wikipedia.org/wiki/%E9%AB%98%E5%BE%B3%E9%99%A2",
+            category: .buddha),
         Location(
             name: "明月院",
             cityName: "山ノ内",
@@ -76,7 +81,8 @@ class LocationsDataService {
                 "meigetsuin-2",
                 "meigetsuin-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E6%98%8E%E6%9C%88%E9%99%A2"),
+            link: "https://ja.wikipedia.org/wiki/%E6%98%8E%E6%9C%88%E9%99%A2",
+            category: .temple),
         Location(
             name: "報国寺",
             cityName: "浄明寺",
@@ -87,7 +93,8 @@ class LocationsDataService {
                 "hokokuji-2",
                 "hokokuji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E5%A0%B1%E5%9B%BD%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)"),
+            link: "https://ja.wikipedia.org/wiki/%E5%A0%B1%E5%9B%BD%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)",
+            category: .temple),
         Location(
             name: "東慶寺",
             cityName: "山ノ内",
@@ -98,7 +105,8 @@ class LocationsDataService {
                 "tokeiji-2",
                 "tokeiji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E6%9D%B1%E6%85%B6%E5%AF%BA"),
+            link: "https://ja.wikipedia.org/wiki/%E6%9D%B1%E6%85%B6%E5%AF%BA",
+            category: .temple),
         Location(
             name: "浄智寺",
             cityName: "山ノ内",
@@ -109,7 +117,8 @@ class LocationsDataService {
                 "jochiji-2",
                 "jochiji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E6%B5%84%E6%99%BA%E5%AF%BA"),
+            link: "https://ja.wikipedia.org/wiki/%E6%B5%84%E6%99%BA%E5%AF%BA",
+            category: .temple),
         Location(
             name: "銭洗弁財天宇賀福神社",
             cityName: "佐助",
@@ -120,7 +129,8 @@ class LocationsDataService {
                 "zeniarai-benzaiten-2",
                 "zeniarai-benzaiten-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E9%8A%AD%E6%B4%97%E5%BC%81%E8%B2%A1%E5%A4%A9%E5%AE%87%E8%B3%80%E7%A6%8F%E7%A5%9E%E7%A4%BE"),
+            link: "https://ja.wikipedia.org/wiki/%E9%8A%AD%E6%B4%97%E5%BC%81%E8%B2%A1%E5%A4%A9%E5%AE%87%E8%B3%80%E7%A6%8F%E7%A5%9E%E7%A4%BE",
+            category: .shrine),
         Location(
             name: "浄光明寺",
             cityName: "扇ガ谷",
@@ -131,7 +141,8 @@ class LocationsDataService {
                 "jokomyoji-2",
                 "jokomyoji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E6%B5%84%E5%85%89%E6%98%8E%E5%AF%BA"),
+            link: "https://ja.wikipedia.org/wiki/%E6%B5%84%E5%85%89%E6%98%8E%E5%AF%BA",
+            category: .temple),
         Location(
             name: "海蔵寺",
             cityName: "扇ガ谷",
@@ -142,7 +153,8 @@ class LocationsDataService {
                 "kaizoji-2",
                 "kaizoji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E6%B5%B7%E8%94%B5%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)"),
+            link: "https://ja.wikipedia.org/wiki/%E6%B5%B7%E8%94%B5%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)",
+            category: .temple),
         Location(
             name: "光明寺",
             cityName: "材木座",
@@ -153,7 +165,8 @@ class LocationsDataService {
                 "komyoji-2",
                 "komyoji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E5%85%89%E6%98%8E%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)"),
+            link: "https://ja.wikipedia.org/wiki/%E5%85%89%E6%98%8E%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)",
+            category: .temple),
         Location(
             name: "寿福寺",
             cityName: "扇ガ谷",
@@ -164,7 +177,8 @@ class LocationsDataService {
                 "jufukuji-2",
                 "jufukuji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E5%AF%BF%E7%A6%8F%E5%AF%BA"),
+            link: "https://ja.wikipedia.org/wiki/%E5%AF%BF%E7%A6%8F%E5%AF%BA",
+            category: .temple),
         Location(
             name: "安養院",
             cityName: "大町",
@@ -175,7 +189,8 @@ class LocationsDataService {
                 "anyoin-2",
                 "anyoin-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E5%AE%89%E9%A4%8A%E9%99%A2_(%E9%8E%8C%E5%80%89%E5%B8%82)"),
+            link: "https://ja.wikipedia.org/wiki/%E5%AE%89%E9%A4%8A%E9%99%A2_(%E9%8E%8C%E5%80%89%E5%B8%82)",
+            category: .temple),
         Location(
             name: "荏柄天神社",
             cityName: "二階堂",
@@ -186,7 +201,8 @@ class LocationsDataService {
                 "egaratenjinsha-2",
                 "egaratenjinsha-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E8%8D%8F%E6%9F%84%E5%A4%A9%E7%A5%9E%E7%A4%BE"),
+            link: "https://ja.wikipedia.org/wiki/%E8%8D%8F%E6%9F%84%E5%A4%A9%E7%A5%9E%E7%A4%BE",
+            category: .shrine),
         Location(
             name: "本覚寺",
             cityName: "小町",
@@ -197,7 +213,8 @@ class LocationsDataService {
                 "hongakuji-2",
                 "hongakuji-3",
             ],
-            link: "https://ja.wikipedia.org/wiki/%E6%9C%AC%E8%A6%9A%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)"),
+            link: "https://ja.wikipedia.org/wiki/%E6%9C%AC%E8%A6%9A%E5%AF%BA_(%E9%8E%8C%E5%80%89%E5%B8%82)",
+            category: .temple),
     ]
     
 }

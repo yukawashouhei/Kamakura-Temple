@@ -91,7 +91,7 @@ extension LocationsView {
             annotationItems: vm.locations,
             annotationContent: { location in
             MapAnnotation(coordinate: location.coordinates) {
-                LocationMapAnnotationView()
+                LocationMapAnnotationView(location: location)
                     .scaleEffect(vm.mapLocation == location ? 1
                                  : 0.7)
                     .shadow(radius:10)
