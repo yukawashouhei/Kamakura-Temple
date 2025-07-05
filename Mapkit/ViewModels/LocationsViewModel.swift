@@ -38,6 +38,7 @@ class LocationsViewModel: NSObject, ObservableObject {
     // User location
     @Published var userLocation: CLLocation?
     @Published var locationAuthorizationStatus: CLAuthorizationStatus = .notDetermined
+    @Published var isRequestingLocationPermission: Bool = false
     
     override init() {
         let locations = LocationsDataService.locations
@@ -47,6 +48,11 @@ class LocationsViewModel: NSObject, ObservableObject {
         self.updateMapRegion(location: locations.first!)
         
         setupLocationManager()
+        
+        // Request location permission on app launch after a short delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.requestLocationPermissionOnLaunch()
+        }
     }
     
     private func setupLocationManager() {
@@ -66,8 +72,20 @@ class LocationsViewModel: NSObject, ObservableObject {
         locationManager.requestWhenInUseAuthorization()
     }
     
+    func requestLocationPermissionOnLaunch() {
+        // Only request if permission is not determined
+        if locationAuthorizationStatus == .notDetermined {
+            isRequestingLocationPermission = true
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
     func centerOnUserLocation() {
-        guard let userLocation = userLocation else { return }
+        guard let userLocation = userLocation else { 
+            // If no user location, request permission
+            requestLocationPermission()
+            return 
+        }
         
         withAnimation(.easeInOut) {
             self.mapRegion = MKCoordinateRegion(
@@ -78,19 +96,17 @@ class LocationsViewModel: NSObject, ObservableObject {
     }
     
     func showRouteToLocation(_ destination: Location) {
-        guard let userLocation = userLocation else { return }
+        guard let userLocation = userLocation else { 
+            // If no user location, request permission first
+            requestLocationPermission()
+            return 
+        }
         
         // Create MKMapItems for source and destination
         let sourceMapItem = MKMapItem(placemark: MKPlacemark(coordinate: userLocation.coordinate))
         let destinationMapItem = MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinates))
         
-        // Open in Apple Maps
-        let request = MKDirections.Request()
-        request.source = sourceMapItem
-        request.destination = destinationMapItem
-        request.transportType = .walking
-        
-        // Open Apple Maps with the route
+        // Open in Apple Maps with walking directions
         MKMapItem.openMaps(with: [sourceMapItem, destinationMapItem], 
                           launchOptions: [
                             MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking
@@ -156,10 +172,11 @@ extension LocationsViewModel: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         
         Task { @MainActor in
+            let isFirstLocation = self.userLocation == nil
             self.userLocation = location
             
             // Center on user location if this is the first location update
-            if self.locationAuthorizationStatus == .authorizedWhenInUse || self.locationAuthorizationStatus == .authorizedAlways {
+            if isFirstLocation && (self.locationAuthorizationStatus == .authorizedWhenInUse || self.locationAuthorizationStatus == .authorizedAlways) {
                 self.centerOnUserLocation()
             }
         }
@@ -168,13 +185,18 @@ extension LocationsViewModel: CLLocationManagerDelegate {
     nonisolated func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         Task { @MainActor in
             self.locationAuthorizationStatus = status
+            self.isRequestingLocationPermission = false
             
             switch status {
             case .authorizedWhenInUse, .authorizedAlways:
                 self.locationManager.startUpdatingLocation()
+                // Center on user location when permission is granted
+                if let userLocation = self.userLocation {
+                    self.centerOnUserLocation()
+                }
             case .denied, .restricted:
                 // Handle denied access - user can still use the app without location
-                break
+                print("Location access denied by user")
             case .notDetermined:
                 // Wait for user decision
                 break

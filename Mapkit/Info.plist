@@ -6,8 +6,8 @@
 	<string>このアプリは鎌倉の寺・神社へのルート案内のために位置情報を使用します。</string>
 	<key>UILaunchScreen</key>
 	<dict>
-		<key>UIColorName</key>
-		<string>AccentColor</string>
+			<key>UIColorName</key>
+	<string>ECECEC</string>
 		<key>UIImageName</key>
 		<string>logo-launch</string>
 		<key>UIImageRespectsSafeAreaInsets</key>

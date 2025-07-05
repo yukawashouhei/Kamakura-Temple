@@ -108,16 +108,16 @@ extension LocationDetailView {
                 vm.sheetLocation = nil
             }) {
                 HStack {
-                    Image(systemName: "location.fill")
-                    Text("Go here")
+                    Image(systemName: goHereButtonIconName)
+                    Text(goHereButtonText)
                 }
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .frame(height: 44)
             }
             .buttonStyle(.borderedProminent)
-            .disabled(vm.userLocation == nil)
-            .opacity(vm.userLocation == nil ? 0.5 : 1.0)
+            .disabled(vm.locationAuthorizationStatus != .authorizedWhenInUse && vm.locationAuthorizationStatus != .authorizedAlways)
+            .opacity(goHereButtonOpacity)
         }
     }
     
@@ -148,6 +148,36 @@ extension LocationDetailView {
                 .cornerRadius(10)
                 .shadow(radius: 4)
                 .padding()
+        }
+    }
+    
+    private var goHereButtonIconName: String {
+        if vm.isRequestingLocationPermission {
+            return "location.circle"
+        } else if vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways {
+            return "location.fill"
+        } else {
+            return "location.slash.fill"
+        }
+    }
+    
+    private var goHereButtonText: String {
+        if vm.isRequestingLocationPermission {
+            return "Requesting..."
+        } else if vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways {
+            return "Go here"
+        } else {
+            return "Enable location"
+        }
+    }
+    
+    private var goHereButtonOpacity: Double {
+        if vm.isRequestingLocationPermission {
+            return 0.8
+        } else if vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways {
+            return 1.0
+        } else {
+            return 0.7
         }
     }
 }

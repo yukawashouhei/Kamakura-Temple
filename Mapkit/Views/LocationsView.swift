@@ -104,18 +104,48 @@ extension LocationsView {
     
     private var currentLocationButton: some View {
         Button(action: vm.centerOnUserLocation) {
-            Image(systemName: "location.fill")
+            Image(systemName: buttonIconName)
                 .font(.title2)
                 .foregroundColor(.white)
                 .frame(width: 50, height: 50)
                 .background(
                     Circle()
-                        .fill(Color.blue)
+                        .fill(buttonColor)
                         .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
                 )
         }
-        .disabled(vm.userLocation == nil)
-        .opacity(vm.userLocation == nil ? 0.5 : 1.0)
+        .disabled(vm.locationAuthorizationStatus != .authorizedWhenInUse && vm.locationAuthorizationStatus != .authorizedAlways)
+        .opacity(buttonOpacity)
+    }
+    
+    private var buttonIconName: String {
+        if vm.isRequestingLocationPermission {
+            return "location.circle"
+        } else if vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways {
+            return "location.fill"
+        } else {
+            return "location.slash.fill"
+        }
+    }
+    
+    private var buttonColor: Color {
+        if vm.isRequestingLocationPermission {
+            return .orange
+        } else if vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways {
+            return .blue
+        } else {
+            return .gray
+        }
+    }
+    
+    private var buttonOpacity: Double {
+        if vm.isRequestingLocationPermission {
+            return 0.8
+        } else if vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways {
+            return 1.0
+        } else {
+            return 0.7
+        }
     }
     
     private var locationsPreviewStack: some View {
