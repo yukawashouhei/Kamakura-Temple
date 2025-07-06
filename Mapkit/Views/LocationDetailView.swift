@@ -62,11 +62,12 @@ extension LocationDetailView {
     
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(location.name)
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .foregroundStyle(.primary)
-            Text(location.cityName)
+            Text(location.localizedName)
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+            
+            Text(location.localizedCityName)
                 .font(.title2)
                 .foregroundColor(.secondary)
         }
@@ -74,11 +75,14 @@ extension LocationDetailView {
     
     private var descriptionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(location.description)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            ScrollView {
+                Text(location.localizedDescription)
+                    .font(.body)
+                    .lineSpacing(4)
+                    .padding(.horizontal)
+            }
             
-            if let url = URL(string: location.link) {
+            if let url = URL(string: location.localizedLink) {
                 Link("Read more on Wikipedia", destination: url)
                     .font(.headline)
                     .tint(.blue)
@@ -89,7 +93,7 @@ extension LocationDetailView {
     private var actionButtons: some View {
         HStack(spacing: 16) {
             // Learn more button (Wikipedia link)
-            if let url = URL(string: location.link) {
+            if let url = URL(string: location.localizedLink) {
                 Link(destination: url) {
                     HStack {
                         Image(systemName: "book.fill")

@@ -63,12 +63,14 @@ extension LocationPreviewView {
     
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(location.name)
-                .font(.title2)
-                .fontWeight(.bold)
+            Text(location.localizedName)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(.primary)
             
-            Text(location.cityName)
+            Text(location.localizedCityName)
                 .font(.subheadline)
+                .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

@@ -44,11 +44,13 @@ extension LocationsListView {
                     .cornerRadius(10)
             }
             
-            VStack(alignment: .leading) {
-                Text(location.name)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(location.localizedName)
                     .font(.headline)
-                Text(location.cityName)
+                    .foregroundColor(.primary)
+                Text(location.localizedCityName)
                     .font(.subheadline)
+                    .foregroundColor(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }

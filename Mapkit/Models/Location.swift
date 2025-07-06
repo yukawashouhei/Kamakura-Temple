@@ -25,17 +25,57 @@ enum LocationCategory: String, CaseIterable {
     }
 }
 
+// 多言語対応のための構造体
+struct LocalizedString {
+    let japanese: String
+    let english: String
+    
+    func localized(for language: String) -> String {
+        return language == "en" ? english : japanese
+    }
+}
+
+struct LocalizedLinks {
+    let japanese: String
+    let english: String
+    
+    func localized(for language: String) -> String {
+        return language == "en" ? english : japanese
+    }
+}
+
 struct Location: Identifiable, Equatable {
-    let name: String
-    let cityName: String
+    let name: LocalizedString
+    let cityName: LocalizedString
     let coordinates: CLLocationCoordinate2D
-    let description: String
+    let description: LocalizedString
     let imageNames: [String]
-    let link: String
+    let link: LocalizedLinks
     let category: LocationCategory
     
     var id: String {
-        name + cityName
+        name.japanese + cityName.japanese
+    }
+    
+    // 現在の言語設定に基づいてローカライズされた値を取得
+    var localizedName: String {
+        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        return name.localized(for: language)
+    }
+    
+    var localizedCityName: String {
+        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        return cityName.localized(for: language)
+    }
+    
+    var localizedDescription: String {
+        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        return description.localized(for: language)
+    }
+    
+    var localizedLink: String {
+        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        return link.localized(for: language)
     }
     
     // Equitable
