@@ -31,7 +31,10 @@ struct LocalizedString {
     let english: String
     
     func localized(for language: String) -> String {
-        return language == "en" ? english : japanese
+        print("DEBUG: LocalizedString.localized called with language: \(language)")
+        let result = language == "en" ? english : japanese
+        print("DEBUG: Returning: \(result)")
+        return result
     }
 }
 
@@ -40,7 +43,10 @@ struct LocalizedLinks {
     let english: String
     
     func localized(for language: String) -> String {
-        return language == "en" ? english : japanese
+        print("DEBUG: LocalizedLinks.localized called with language: \(language)")
+        let result = language == "en" ? english : japanese
+        print("DEBUG: Returning: \(result)")
+        return result
     }
 }
 
@@ -59,22 +65,27 @@ struct Location: Identifiable, Equatable {
     
     // 現在の言語設定に基づいてローカライズされた値を取得
     var localizedName: String {
-        let language = Bundle.main.preferredLocalizations.first ?? "ja"
-        return name.localized(for: language)
+        // より確実な言語判定方法を使用
+        let language = NSLocale.preferredLanguages.first?.prefix(2).description ?? "ja"
+        print("DEBUG: NSLocale.preferredLanguages: \(NSLocale.preferredLanguages)")
+        print("DEBUG: Detected language: \(language)")
+        let result = name.localized(for: language)
+        print("DEBUG: Final result for name: \(result)")
+        return result
     }
     
     var localizedCityName: String {
-        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        let language = NSLocale.preferredLanguages.first?.prefix(2).description ?? "ja"
         return cityName.localized(for: language)
     }
     
     var localizedDescription: String {
-        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        let language = NSLocale.preferredLanguages.first?.prefix(2).description ?? "ja"
         return description.localized(for: language)
     }
     
     var localizedLink: String {
-        let language = Bundle.main.preferredLocalizations.first ?? "ja"
+        let language = NSLocale.preferredLanguages.first?.prefix(2).description ?? "ja"
         return link.localized(for: language)
     }
     
