@@ -17,7 +17,7 @@ struct LocationMapAnnotationView: View {
             Image(location.category.pinImageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 32, height: 32)
+                .frame(width: 48, height: 48)
                 .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
             
             // Remove the triangle since we're using custom pin images
