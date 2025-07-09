@@ -2,12 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>このアプリは鎌倉の寺・神社へのルート案内のために位置情報を使用します。</string>
 	<key>UILaunchScreen</key>
 	<dict>
-			<key>UIColorName</key>
-	<string>ECECEC</string>
+		<key>UIColorName</key>
+		<string>ECECEC</string>
 		<key>UIImageName</key>
 		<string>logo-launch</string>
 		<key>UIImageRespectsSafeAreaInsets</key>
