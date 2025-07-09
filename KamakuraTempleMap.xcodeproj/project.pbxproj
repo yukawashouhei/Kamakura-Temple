@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7D49E0CD2DE9C6FE005518D9 /* KamakuraTemple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KamakuraTemple.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D49E0CD2DE9C6FE005518D9 /* KamakuraTempleMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KamakuraTempleMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D49E0E42DE9CF53005518D9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7D49E0E82DE9CF53005518D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D49E0E92DE9CF53005518D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		7D49E0CE2DE9C6FE005518D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7D49E0CD2DE9C6FE005518D9 /* KamakuraTemple.app */,
+				7D49E0CD2DE9C6FE005518D9 /* KamakuraTempleMap.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,9 +128,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7D49E0CC2DE9C6FE005518D9 /* KamakuraTemple */ = {
+		7D49E0CC2DE9C6FE005518D9 /* KamakuraTempleMap */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7D49E0DB2DE9C6FF005518D9 /* Build configuration list for PBXNativeTarget "KamakuraTemple" */;
+			buildConfigurationList = 7D49E0DB2DE9C6FF005518D9 /* Build configuration list for PBXNativeTarget "KamakuraTempleMap" */;
 			buildPhases = (
 				7D49E0C92DE9C6FE005518D9 /* Sources */,
 				7D49E0CA2DE9C6FE005518D9 /* Frameworks */,
@@ -140,11 +140,11 @@
 			);
 			dependencies = (
 			);
-			name = KamakuraTemple;
+			name = KamakuraTempleMap;
 			packageProductDependencies = (
 			);
 			productName = Mapkit;
-			productReference = 7D49E0CD2DE9C6FE005518D9 /* KamakuraTemple.app */;
+			productReference = 7D49E0CD2DE9C6FE005518D9 /* KamakuraTempleMap.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -162,7 +162,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7D49E0C82DE9C6FE005518D9 /* Build configuration list for PBXProject "KamakuraTemple" */;
+			buildConfigurationList = 7D49E0C82DE9C6FE005518D9 /* Build configuration list for PBXProject "KamakuraTempleMap" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,7 +176,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7D49E0CC2DE9C6FE005518D9 /* KamakuraTemple */,
+				7D49E0CC2DE9C6FE005518D9 /* KamakuraTempleMap */,
 			);
 		};
 /* End PBXProject section */
@@ -396,7 +396,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7D49E0C82DE9C6FE005518D9 /* Build configuration list for PBXProject "KamakuraTemple" */ = {
+		7D49E0C82DE9C6FE005518D9 /* Build configuration list for PBXProject "KamakuraTempleMap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D49E0D92DE9C6FF005518D9 /* Debug */,
@@ -405,7 +405,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7D49E0DB2DE9C6FF005518D9 /* Build configuration list for PBXNativeTarget "KamakuraTemple" */ = {
+		7D49E0DB2DE9C6FF005518D9 /* Build configuration list for PBXNativeTarget "KamakuraTempleMap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D49E0DC2DE9C6FF005518D9 /* Debug */,
