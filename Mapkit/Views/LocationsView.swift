@@ -30,14 +30,22 @@ struct LocationsView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    currentLocationButton
-                        .padding(.trailing, 20)
-                        .padding(.bottom, 200)
+                    VStack(spacing: 12) {
+                        addCommentButton
+                        currentLocationButton
+                    }
+                    .padding(.trailing, 20)
+                    .padding(.bottom, 200)
                 }
             }
         }
         .sheet(item: $vm.sheetLocation, onDismiss: nil) { location in 
             LocationDetailView(location: location)
+        }
+        .sheet(isPresented: $vm.showAddCommentSheet) {
+            if let coordinate = vm.selectedCommentCoordinate {
+                AddCommentView(commentService: vm.commentService, coordinate: coordinate)
+            }
         }
         .onAppear {
             // Request location permission on first app launch
@@ -90,16 +98,15 @@ extension LocationsView {
             showsUserLocation: vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways,
             annotationItems: vm.locations,
             annotationContent: { location in
-            MapAnnotation(coordinate: location.coordinates) {
-                LocationMapAnnotationView(location: location)
-                    .scaleEffect(vm.mapLocation == location ? 1
-                                 : 0.7)
-                    .shadow(radius:10)
-                    .onTapGesture {
-                        vm.showNextLocation(location: location)
-                    }
-            }
-        })
+                MapAnnotation(coordinate: location.coordinates) {
+                    LocationMapAnnotationView(location: location)
+                        .scaleEffect(vm.mapLocation == location ? 1 : 0.7)
+                        .shadow(radius:10)
+                        .onTapGesture {
+                            vm.showNextLocation(location: location)
+                        }
+                }
+            })
     }
     
     private var currentLocationButton: some View {
@@ -146,6 +153,21 @@ extension LocationsView {
         } else {
             return 0.7
         }
+    }
+    
+    private var addCommentButton: some View {
+        Button(action: vm.addCommentAtCurrentLocation) {
+            Image(systemName: "plus.bubble.fill")
+                .font(.title2)
+                .foregroundColor(.white)
+                .frame(width: 50, height: 50)
+                .background(
+                    Circle()
+                        .fill(Color.orange)
+                        .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                )
+        }
+        .disabled(vm.locationAuthorizationStatus != .authorizedWhenInUse && vm.locationAuthorizationStatus != .authorizedAlways)
     }
     
     private var locationsPreviewStack: some View {

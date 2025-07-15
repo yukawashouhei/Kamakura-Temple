@@ -16,6 +16,13 @@ class LocationsViewModel: NSObject, ObservableObject {
     //All loaded locations
     @Published var locations: [Location]
     
+    // Comment service
+    @Published var commentService = CommentService()
+    
+    // Comment related states
+    @Published var showAddCommentSheet = false
+    @Published var selectedCommentCoordinate: CLLocationCoordinate2D?
+    
     @Published var mapLocation: Location {
         didSet {
             updateMapRegion(location: self.mapLocation)
@@ -53,6 +60,9 @@ class LocationsViewModel: NSObject, ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.requestLocationPermissionOnLaunch()
         }
+        
+        // Add sample comments for demo
+        commentService.addSampleComments()
     }
     
     private func setupLocationManager() {
@@ -132,6 +142,24 @@ class LocationsViewModel: NSObject, ObservableObject {
             self.mapLocation = location
             self.showLocationsList = false
         }
+    }
+    
+    // MARK: - Comment Functions
+    
+    func addCommentAtCurrentLocation() {
+        guard let userLocation = userLocation else {
+            // If no user location, request permission
+            requestLocationPermission()
+            return
+        }
+        
+        selectedCommentCoordinate = userLocation.coordinate
+        showAddCommentSheet = true
+    }
+    
+    func addCommentAtMapCenter() {
+        selectedCommentCoordinate = mapRegion.center
+        showAddCommentSheet = true
     }
     
     func nextButtonPressed() {
