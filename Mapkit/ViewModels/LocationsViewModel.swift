@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 import SwiftUI
 import CoreLocation
+import Combine
 
 @MainActor
 class LocationsViewModel: NSObject, ObservableObject {
@@ -22,6 +23,15 @@ class LocationsViewModel: NSObject, ObservableObject {
     // Comment related states
     @Published var showAddCommentSheet = false
     @Published var selectedCommentCoordinate: CLLocationCoordinate2D?
+    @Published var selectedComment: Comment?
+    @Published var showCommentDetailSheet = false
+    @Published var showCommentsListSheet = false
+    
+    // Combined annotation items for map
+    @Published var annotationItems: [MapItem] = []
+    
+    // Combine cancellables
+    private var cancellables = Set<AnyCancellable>()
     
     @Published var mapLocation: Location {
         didSet {
@@ -61,7 +71,27 @@ class LocationsViewModel: NSObject, ObservableObject {
             self.requestLocationPermissionOnLaunch()
         }
         
-        // Add sample comments for demo
+        // Update annotation items when comments change
+        updateAnnotationItems()
+        
+        // CommentServiceの変更を監視
+        commentService.objectWillChange.sink { [weak self] in
+            self?.updateAnnotationItems()
+        }.store(in: &cancellables)
+    }
+    
+    // MARK: - Annotation Management
+    
+    private func updateAnnotationItems() {
+        // LocationとCommentをMapItemに変換してannotationItemsに設定
+        var items: [MapItem] = []
+        items.append(contentsOf: locations.map { MapItem.location($0) })
+        items.append(contentsOf: commentService.comments.map { MapItem.comment($0) })
+        annotationItems = items
+    }
+    
+    // Add sample comments for demo
+    private func addSampleComments() {
         commentService.addSampleComments()
     }
     
@@ -160,6 +190,20 @@ class LocationsViewModel: NSObject, ObservableObject {
     func addCommentAtMapCenter() {
         selectedCommentCoordinate = mapRegion.center
         showAddCommentSheet = true
+    }
+    
+    func showCommentDetail(comment: Comment) {
+        selectedComment = comment
+        showCommentDetailSheet = true
+    }
+    
+    func deleteComment(_ comment: Comment) {
+        commentService.removeComment(comment)
+        updateAnnotationItems()
+    }
+    
+    func showCommentsList() {
+        showCommentsListSheet = true
     }
     
     func nextButtonPressed() {

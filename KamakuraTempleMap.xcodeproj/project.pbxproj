@@ -23,6 +23,10 @@
 		7DBE25432DFEC50B0089A69E /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE25422DFEC50B0089A69E /* CommentService.swift */; };
 		7DBE25452DFEC50C0089A69E /* AddCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE25442DFEC50C0089A69E /* AddCommentView.swift */; };
 		7DBE25472DFEC50D0089A69E /* CommentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE25462DFEC50D0089A69E /* CommentAnnotationView.swift */; };
+		7DBE25492DFEC50E0089A69E /* MapAnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE25482DFEC50E0089A69E /* MapAnnotationItem.swift */; };
+		7DBE254B2DFEC50F0089A69E /* CommentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE254A2DFEC50F0089A69E /* CommentDetailView.swift */; };
+		7DBE254D2DFEC5100089A69E /* CommentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE254C2DFEC5100089A69E /* CommentsListView.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		7DBE25422DFEC50B0089A69E /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		7DBE25442DFEC50C0089A69E /* AddCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentView.swift; sourceTree = "<group>"; };
 		7DBE25462DFEC50D0089A69E /* CommentAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAnnotationView.swift; sourceTree = "<group>"; };
+		7DBE25482DFEC50E0089A69E /* MapAnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationItem.swift; sourceTree = "<group>"; };
+		7DBE254A2DFEC50F0089A69E /* CommentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailView.swift; sourceTree = "<group>"; };
+		7DBE254C2DFEC5100089A69E /* CommentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsListView.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +86,7 @@
 			children = (
 				7D49E0F02DE9D0D9005518D9 /* Location.swift */,
 				7DBE25402DFEC50A0089A69E /* Comment.swift */,
+				7DBE25482DFEC50E0089A69E /* MapAnnotationItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -108,6 +117,8 @@
 				7DBE253E2DFD8BFB0089A69E /* LocationDetailView.swift */,
 				7DBE25442DFEC50C0089A69E /* AddCommentView.swift */,
 				7DBE25462DFEC50D0089A69E /* CommentAnnotationView.swift */,
+				7DBE254A2DFEC50F0089A69E /* CommentDetailView.swift */,
+				7DBE254C2DFEC5100089A69E /* CommentsListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -224,6 +235,9 @@
 				7DBE25432DFEC50B0089A69E /* CommentService.swift in Sources */,
 				7DBE25452DFEC50C0089A69E /* AddCommentView.swift in Sources */,
 				7DBE25472DFEC50D0089A69E /* CommentAnnotationView.swift in Sources */,
+				7DBE25492DFEC50E0089A69E /* MapAnnotationItem.swift in Sources */,
+				7DBE254B2DFEC50F0089A69E /* CommentDetailView.swift in Sources */,
+				7DBE254D2DFEC5100089A69E /* CommentsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

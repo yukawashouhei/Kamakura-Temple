@@ -11,6 +11,9 @@ import Combine
 
 class CommentService: ObservableObject {
     @Published var comments: [Comment] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    
     private let userDefaults = UserDefaults.standard
     private let commentsKey = "saved_comments"
     
@@ -24,12 +27,14 @@ class CommentService: ObservableObject {
     func addComment(_ comment: Comment) {
         comments.append(comment)
         saveComments()
+        objectWillChange.send()
     }
     
     /// コメントを削除
     func removeComment(_ comment: Comment) {
         comments.removeAll { $0.id == comment.id }
         saveComments()
+        objectWillChange.send()
     }
     
     /// 指定された座標の近くのコメントを取得
@@ -91,4 +96,6 @@ class CommentService: ObservableObject {
             }
         }
     }
+    
+
 } 

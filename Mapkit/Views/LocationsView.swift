@@ -31,6 +31,7 @@ struct LocationsView: View {
                 HStack {
                     Spacer()
                     VStack(spacing: 12) {
+                        commentsListButton
                         addCommentButton
                         currentLocationButton
                     }
@@ -46,6 +47,16 @@ struct LocationsView: View {
             if let coordinate = vm.selectedCommentCoordinate {
                 AddCommentView(commentService: vm.commentService, coordinate: coordinate)
             }
+        }
+        .sheet(isPresented: $vm.showCommentDetailSheet) {
+            if let comment = vm.selectedComment {
+                CommentDetailView(comment: comment) {
+                    vm.deleteComment(comment)
+                }
+            }
+        }
+        .sheet(isPresented: $vm.showCommentsListSheet) {
+            CommentsListView(commentService: vm.commentService)
         }
         .onAppear {
             // Request location permission on first app launch
@@ -96,15 +107,23 @@ extension LocationsView {
     private var mapLayer: some View {
         Map(coordinateRegion: $vm.mapRegion,
             showsUserLocation: vm.locationAuthorizationStatus == .authorizedWhenInUse || vm.locationAuthorizationStatus == .authorizedAlways,
-            annotationItems: vm.locations,
-            annotationContent: { location in
-                MapAnnotation(coordinate: location.coordinates) {
-                    LocationMapAnnotationView(location: location)
-                        .scaleEffect(vm.mapLocation == location ? 1 : 0.7)
-                        .shadow(radius:10)
-                        .onTapGesture {
-                            vm.showNextLocation(location: location)
-                        }
+            annotationItems: vm.annotationItems,
+            annotationContent: { item in
+                MapAnnotation(coordinate: item.coordinate) {
+                    switch item {
+                    case .location(let location):
+                        LocationMapAnnotationView(location: location)
+                            .scaleEffect(vm.mapLocation == location ? 1 : 0.7)
+                            .shadow(radius: 10)
+                            .onTapGesture {
+                                vm.showNextLocation(location: location)
+                            }
+                    case .comment(let comment):
+                        CommentAnnotationView(comment: comment)
+                            .onTapGesture {
+                                vm.showCommentDetail(comment: comment)
+                            }
+                    }
                 }
             })
     }
@@ -152,6 +171,20 @@ extension LocationsView {
             return 1.0
         } else {
             return 0.7
+        }
+    }
+    
+    private var commentsListButton: some View {
+        Button(action: vm.showCommentsList) {
+            Image(systemName: "list.bullet")
+                .font(.title2)
+                .foregroundColor(.white)
+                .frame(width: 50, height: 50)
+                .background(
+                    Circle()
+                        .fill(Color.green)
+                        .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                )
         }
     }
     

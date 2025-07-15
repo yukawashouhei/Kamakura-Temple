@@ -25,6 +25,15 @@ struct Comment: Identifiable, Codable, Equatable {
         self.userName = userName
     }
     
+    init(id: UUID, text: String, coordinate: CLLocationCoordinate2D, timestamp: Date, userId: String, userName: String) {
+        self.id = id
+        self.text = text
+        self.coordinate = coordinate
+        self.timestamp = timestamp
+        self.userId = userId
+        self.userName = userName
+    }
+    
     // CLLocationCoordinate2DのCodable対応
     enum CodingKeys: String, CodingKey {
         case id, text, latitude, longitude, timestamp, userId, userName
