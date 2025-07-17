@@ -32,34 +32,26 @@ struct CommentAnnotationView: View {
     
     private var commentBubble: some View {
         VStack(alignment: .leading, spacing: 4) {
-            // コメントテキスト
-            Text(comment.text)
-                .font(.system(size: 12, weight: .medium))
+            // コメントテキスト（最初の15文字）
+            Text(comment.text.prefix(15) + (comment.text.count > 15 ? "..." : ""))
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.white)
-                .lineLimit(3)
+                .lineLimit(2)
                 .multilineTextAlignment(.leading)
             
             // タイムスタンプ
             Text(comment.shortTimestamp)
-                .font(.system(size: 10))
+                .font(.system(size: 11))
                 .foregroundColor(.white.opacity(0.8))
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 14)
                 .fill(Color.black.opacity(0.8))
                 .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
         )
-        .overlay(
-            // 吹き出しの矢印
-            Triangle()
-                .fill(Color.black.opacity(0.8))
-                .frame(width: 12, height: 8)
-                .rotationEffect(.degrees(180))
-                .offset(y: 8)
-        )
-        .frame(maxWidth: 150)
+        .frame(maxWidth: 180)
     }
     
     private var commentMarker: some View {
@@ -67,26 +59,14 @@ struct CommentAnnotationView: View {
             // 外側の円
             Circle()
                 .fill(Color.blue)
-                .frame(width: 32, height: 32)
-                .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 2)
+                .frame(width: 40, height: 40)
+                .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
             
             // 笑顔アイコン
             Image(systemName: "face.smiling")
-                .font(.system(size: 16, weight: .medium))
+                .font(.system(size: 20, weight: .medium))
                 .foregroundColor(.white)
         }
-    }
-}
-
-// 三角形のシェイプ（吹き出しの矢印用）
-struct Triangle: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.closeSubpath()
-        return path
     }
 }
 
