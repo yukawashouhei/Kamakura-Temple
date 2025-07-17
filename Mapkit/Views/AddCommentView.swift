@@ -14,7 +14,6 @@ struct AddCommentView: View {
     let coordinate: CLLocationCoordinate2D
     
     @State private var commentText = ""
-    @State private var isSubmitting = false
     
     private let maxCharacterCount = 140
     
@@ -93,14 +92,8 @@ struct AddCommentView: View {
     private var submitButton: some View {
         Button(action: submitComment) {
             HStack {
-                if isSubmitting {
-                    ProgressView()
-                        .scaleEffect(0.8)
-                        .foregroundColor(.white)
-                } else {
-                    Image(systemName: "paperplane.fill")
-                }
-                Text(isSubmitting ? "投稿中..." : "投稿する")
+                Image(systemName: "paperplane.fill")
+                Text("投稿する")
             }
             .font(.headline)
             .foregroundColor(.white)
@@ -111,7 +104,7 @@ struct AddCommentView: View {
                     .fill(canSubmit ? Color.blue : Color.gray)
             )
         }
-        .disabled(!canSubmit || isSubmitting)
+        .disabled(!canSubmit)
     }
     
     private var canSubmit: Bool {
@@ -121,24 +114,28 @@ struct AddCommentView: View {
     private func submitComment() {
         guard canSubmit else { return }
         
-        isSubmitting = true
+        let trimmedText = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let newComment = Comment(
+            text: trimmedText,
+            coordinate: coordinate
+        )
         
-        // バックグラウンドで処理を実行してUIをブロックしない
+        // 楽観的UI: 即座にコメントを追加してUIを更新
+        commentService.addCommentOptimistically(newComment)
+        
+        // 即座に画面を閉じる（ユーザーは待たない）
+        dismiss()
+        
+        // バックグラウンドで保存処理を実行（エラーハンドリング付き）
         Task {
-            // 実際のアプリではここでAPIコールなどを行う
-            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1秒待機
-            
-            await MainActor.run {
-                let trimmedText = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
-                let newComment = Comment(
-                    text: trimmedText,
-                    coordinate: coordinate
-                )
-                
-                commentService.addComment(newComment)
-                
-                isSubmitting = false
-                dismiss()
+            do {
+                try await commentService.saveCommentToStorage(newComment)
+                // 保存成功 - 何もしない（既にUIに表示済み）
+            } catch {
+                // 保存失敗時はエラーを表示
+                await MainActor.run {
+                    commentService.showError("コメントの保存に失敗しました: \(error.localizedDescription)")
+                }
             }
         }
     }

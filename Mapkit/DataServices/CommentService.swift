@@ -9,6 +9,25 @@ import Foundation
 import MapKit
 import Combine
 
+// MARK: - Error Types
+
+enum CommentError: LocalizedError {
+    case saveFailed(Error)
+    case deleteFailed(Error)
+    case loadFailed(Error)
+    
+    var errorDescription: String? {
+        switch self {
+        case .saveFailed(let error):
+            return "コメントの保存に失敗しました: \(error.localizedDescription)"
+        case .deleteFailed(let error):
+            return "コメントの削除に失敗しました: \(error.localizedDescription)"
+        case .loadFailed(let error):
+            return "コメントの読み込みに失敗しました: \(error.localizedDescription)"
+        }
+    }
+}
+
 class CommentService: ObservableObject {
     @Published var comments: [Comment] = []
     @Published var isLoading = false
@@ -23,36 +42,71 @@ class CommentService: ObservableObject {
     
     // MARK: - Public Methods
     
-    /// 新しいコメントを追加
-    func addComment(_ comment: Comment) {
-        // バックグラウンドで保存処理を実行
-        Task {
+    /// 楽観的UI用: 即座にコメントを追加（UI更新）
+    func addCommentOptimistically(_ comment: Comment) {
+        DispatchQueue.main.async {
+            self.comments.append(comment)
+            self.objectWillChange.send()
+        }
+    }
+    
+    /// 楽観的UI用: 即座にコメントを削除（UI更新）
+    func removeCommentOptimistically(_ comment: Comment) {
+        DispatchQueue.main.async {
+            self.comments.removeAll { $0.id == comment.id }
+            self.objectWillChange.send()
+        }
+    }
+    
+    /// バックグラウンドでコメントを保存
+    func saveCommentToStorage(_ comment: Comment) async throws {
+        // 新しいコメントを一時的に追加して保存
+        var commentsToSave = comments
+        if !commentsToSave.contains(where: { $0.id == comment.id }) {
+            commentsToSave.append(comment)
+        }
+        
+        // UserDefaultsに保存
+        do {
+            let data = try JSONEncoder().encode(commentsToSave)
             await MainActor.run {
-                comments.append(comment)
+                userDefaults.set(data, forKey: commentsKey)
             }
-            
-            // UserDefaultsへの保存はバックグラウンドで実行
-            await saveCommentsAsync()
-            
+        } catch {
+            throw CommentError.saveFailed(error)
+        }
+    }
+    
+    /// バックグラウンドでコメントを削除
+    func deleteCommentFromStorage(_ comment: Comment) async throws {
+        // UserDefaultsに保存
+        do {
+            let data = try JSONEncoder().encode(comments)
             await MainActor.run {
-                objectWillChange.send()
+                userDefaults.set(data, forKey: commentsKey)
+            }
+        } catch {
+            throw CommentError.deleteFailed(error)
+        }
+    }
+    
+    /// エラーメッセージを表示
+    func showError(_ message: String) {
+        DispatchQueue.main.async {
+            self.errorMessage = message
+            // 3秒後にエラーメッセージを自動で消す
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                if self.errorMessage == message {
+                    self.errorMessage = nil
+                }
             }
         }
     }
     
-    /// コメントを削除
-    func removeComment(_ comment: Comment) {
-        Task {
-            await MainActor.run {
-                comments.removeAll { $0.id == comment.id }
-            }
-            
-            // UserDefaultsへの保存はバックグラウンドで実行
-            await saveCommentsAsync()
-            
-            await MainActor.run {
-                objectWillChange.send()
-            }
+    /// エラーメッセージをクリア
+    func clearError() {
+        DispatchQueue.main.async {
+            self.errorMessage = nil
         }
     }
     
@@ -123,7 +177,7 @@ class CommentService: ObservableObject {
         
         for comment in sampleComments {
             if !comments.contains(where: { $0.coordinate.latitude == comment.coordinate.latitude && $0.coordinate.longitude == comment.coordinate.longitude }) {
-                addComment(comment)
+                addCommentOptimistically(comment)
             }
         }
     }

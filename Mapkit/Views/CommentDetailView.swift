@@ -10,6 +10,7 @@ import MapKit
 
 struct CommentDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var commentService: CommentService
     let comment: Comment
     let onDelete: () -> Void
     
@@ -49,8 +50,7 @@ struct CommentDetailView: View {
         }
         .alert("コメントを削除", isPresented: $showDeleteAlert) {
             Button("削除", role: .destructive) {
-                onDelete()
-                dismiss()
+                deleteCommentOptimistically()
             }
             Button("キャンセル", role: .cancel) { }
         } message: {
@@ -132,10 +132,34 @@ struct CommentDetailView: View {
         .frame(height: 200)
         .cornerRadius(12)
     }
+    
+    private func deleteCommentOptimistically() {
+        // 楽観的UI: 即座にコメントを削除してUIを更新
+        commentService.removeCommentOptimistically(comment)
+        
+        // 即座に画面を閉じる
+        dismiss()
+        onDelete()
+        
+        // バックグラウンドで削除処理を実行（エラーハンドリング付き）
+        Task {
+            do {
+                try await commentService.deleteCommentFromStorage(comment)
+                // 削除成功 - 何もしない（既にUIから削除済み）
+            } catch {
+                // 削除失敗時はコメントを再表示
+                await MainActor.run {
+                    commentService.addCommentOptimistically(comment)
+                    commentService.showError("コメントの削除に失敗しました: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 #Preview {
     CommentDetailView(
+        commentService: CommentService(),
         comment: Comment(
             text: "素晴らしい景色でした！",
             coordinate: CLLocationCoordinate2D(latitude: 35.3195, longitude: 139.5469)

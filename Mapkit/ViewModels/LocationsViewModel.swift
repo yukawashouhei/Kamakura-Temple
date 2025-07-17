@@ -198,8 +198,24 @@ class LocationsViewModel: NSObject, ObservableObject {
     }
     
     func deleteComment(_ comment: Comment) {
-        commentService.removeComment(comment)
+        // 楽観的UI: 即座にコメントを削除してUIを更新
+        commentService.removeCommentOptimistically(comment)
         updateAnnotationItems()
+        
+        // バックグラウンドで削除処理を実行（エラーハンドリング付き）
+        Task {
+            do {
+                try await commentService.deleteCommentFromStorage(comment)
+                // 削除成功 - 何もしない（既にUIから削除済み）
+            } catch {
+                // 削除失敗時はコメントを再表示
+                await MainActor.run {
+                    commentService.addCommentOptimistically(comment)
+                    commentService.showError("コメントの削除に失敗しました: \(error.localizedDescription)")
+                    updateAnnotationItems()
+                }
+            }
+        }
     }
     
     func showCommentsList() {

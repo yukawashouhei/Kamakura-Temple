@@ -50,7 +50,7 @@ struct LocationsView: View {
         }
         .sheet(isPresented: $vm.showCommentDetailSheet) {
             if let comment = vm.selectedComment {
-                CommentDetailView(comment: comment) {
+                CommentDetailView(commentService: vm.commentService, comment: comment) {
                     vm.deleteComment(comment)
                 }
             }
