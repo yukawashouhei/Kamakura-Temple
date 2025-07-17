@@ -15,7 +15,6 @@ struct AddCommentView: View {
     
     @State private var commentText = ""
     @State private var isSubmitting = false
-    @FocusState private var isTextFieldFocused: Bool
     
     private let maxCharacterCount = 140
     
@@ -25,8 +24,8 @@ struct AddCommentView: View {
                 // ヘッダー情報
                 headerInfo
                 
-                // テキスト入力エリア
-                textInputArea
+                // テキスト入力エリア（分離されたコンポーネント）
+                TextInputView(commentText: $commentText)
                 
                 // 文字数カウンター
                 characterCounter
@@ -48,7 +47,10 @@ struct AddCommentView: View {
             }
         }
         .onAppear {
-            isTextFieldFocused = true
+            // TextInputViewにフォーカスを設定
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                // フォーカスはTextInputView内で自動的に設定される
+            }
         }
     }
     
@@ -77,25 +79,6 @@ struct AddCommentView: View {
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(12)
-    }
-    
-    private var textInputArea: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("コメント")
-                .font(.headline)
-            
-            TextEditor(text: $commentText)
-                .frame(minHeight: 120)
-                .padding(12)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(12)
-                .focused($isTextFieldFocused)
-                .onChange(of: commentText) { newValue in
-                    if newValue.count > maxCharacterCount {
-                        commentText = String(newValue.prefix(maxCharacterCount))
-                    }
-                }
-        }
     }
     
     private var characterCounter: some View {
@@ -140,18 +123,23 @@ struct AddCommentView: View {
         
         isSubmitting = true
         
-        // 実際のアプリではここでAPIコールなどを行う
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let trimmedText = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
-            let newComment = Comment(
-                text: trimmedText,
-                coordinate: coordinate
-            )
+        // バックグラウンドで処理を実行してUIをブロックしない
+        Task {
+            // 実際のアプリではここでAPIコールなどを行う
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1秒待機
             
-            commentService.addComment(newComment)
-            
-            isSubmitting = false
-            dismiss()
+            await MainActor.run {
+                let trimmedText = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
+                let newComment = Comment(
+                    text: trimmedText,
+                    coordinate: coordinate
+                )
+                
+                commentService.addComment(newComment)
+                
+                isSubmitting = false
+                dismiss()
+            }
         }
     }
 }

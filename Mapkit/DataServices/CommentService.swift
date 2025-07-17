@@ -25,16 +25,35 @@ class CommentService: ObservableObject {
     
     /// 新しいコメントを追加
     func addComment(_ comment: Comment) {
-        comments.append(comment)
-        saveComments()
-        objectWillChange.send()
+        // バックグラウンドで保存処理を実行
+        Task {
+            await MainActor.run {
+                comments.append(comment)
+            }
+            
+            // UserDefaultsへの保存はバックグラウンドで実行
+            await saveCommentsAsync()
+            
+            await MainActor.run {
+                objectWillChange.send()
+            }
+        }
     }
     
     /// コメントを削除
     func removeComment(_ comment: Comment) {
-        comments.removeAll { $0.id == comment.id }
-        saveComments()
-        objectWillChange.send()
+        Task {
+            await MainActor.run {
+                comments.removeAll { $0.id == comment.id }
+            }
+            
+            // UserDefaultsへの保存はバックグラウンドで実行
+            await saveCommentsAsync()
+            
+            await MainActor.run {
+                objectWillChange.send()
+            }
+        }
     }
     
     /// 指定された座標の近くのコメントを取得
@@ -81,6 +100,18 @@ class CommentService: ObservableObject {
         }
     }
     
+    /// UserDefaultsにコメントを非同期で保存
+    private func saveCommentsAsync() async {
+        do {
+            let data = try JSONEncoder().encode(comments)
+            await MainActor.run {
+                userDefaults.set(data, forKey: commentsKey)
+            }
+        } catch {
+            print("Error saving comments asynchronously: \(error)")
+        }
+    }
+    
     /// サンプルコメントを追加（デモ用）
     func addSampleComments() {
         let sampleComments = [
@@ -96,6 +127,5 @@ class CommentService: ObservableObject {
             }
         }
     }
-    
 
 } 
