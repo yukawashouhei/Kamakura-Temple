@@ -13,7 +13,7 @@ struct CommentAnnotationView: View {
     @State private var showBubble = false
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 5) {
             // コメントの吹き出し
             if showBubble {
                 commentBubble
