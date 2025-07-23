@@ -78,6 +78,9 @@ class LocationsViewModel: NSObject, ObservableObject {
         commentService.objectWillChange.sink { [weak self] in
             self?.updateAnnotationItems()
         }.store(in: &cancellables)
+        
+        // サンプルコメントを追加
+        addSampleComments()
     }
     
     // MARK: - Annotation Management

@@ -27,7 +27,6 @@
 		7DBE254B2DFEC50F0089A69E /* CommentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE254A2DFEC50F0089A69E /* CommentDetailView.swift */; };
 		7DBE254D2DFEC5100089A69E /* CommentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE254C2DFEC5100089A69E /* CommentsListView.swift */; };
 		7DBE25532DFEC5130089A69E /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE25522DFEC5130089A69E /* TextInputView.swift */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +52,6 @@
 		7DBE254A2DFEC50F0089A69E /* CommentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailView.swift; sourceTree = "<group>"; };
 		7DBE254C2DFEC5100089A69E /* CommentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsListView.swift; sourceTree = "<group>"; };
 		7DBE25522DFEC5130089A69E /* TextInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,7 +387,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.perksh.KamakuraTempleMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -420,7 +418,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.perksh.KamakuraTempleMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
