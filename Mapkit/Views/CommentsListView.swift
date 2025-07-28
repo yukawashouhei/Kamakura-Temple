@@ -35,7 +35,6 @@ struct CommentsListView: View {
                     }
                 }
                 
-
             }
         }
         .alert("コメントを削除", isPresented: $showDeleteAlert) {

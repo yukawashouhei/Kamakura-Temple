@@ -76,22 +76,25 @@ extension LocationsView {
     
     private var header: some View {
         VStack {
-            Button(action: vm.toggleLocationsList) {
-                Text(vm.mapLocation.localizedName + "," + vm.mapLocation.localizedCityName)
-                    .font(.title2)
-                    .fontWeight(.black)
-                    .foregroundColor(.primary)
-                    .frame(height:55)
-                    .frame(maxWidth: .infinity)
-                    .animation(.none, value: vm.mapLocation)
-                    .overlay(alignment: .leading) {
-                        Image(systemName: "arrow.down")
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                            .padding()
-                            .rotationEffect(Angle(degrees:
-                                                    vm.showLocationsList ? 180 : 0))
-                    }
+            HStack {
+                Button(action: vm.toggleLocationsList) {
+                    Text(vm.mapLocation.localizedName + "," + vm.mapLocation.localizedCityName)
+                        .font(.title2)
+                        .fontWeight(.black)
+                        .foregroundColor(.primary)
+                        .frame(height:55)
+                        .frame(maxWidth: .infinity)
+                        .animation(.none, value: vm.mapLocation)
+                        .overlay(alignment: .leading) {
+                            Image(systemName: "arrow.down")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                                .padding()
+                                .rotationEffect(Angle(degrees:
+                                                        vm.showLocationsList ? 180 : 0))
+                        }
+                }
+                
             }
             
             if vm.showLocationsList {

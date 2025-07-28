@@ -79,8 +79,6 @@ class LocationsViewModel: NSObject, ObservableObject {
             self?.updateAnnotationItems()
         }.store(in: &cancellables)
         
-        // サンプルコメントを追加
-        addSampleComments()
     }
     
     // MARK: - Annotation Management
@@ -91,11 +89,6 @@ class LocationsViewModel: NSObject, ObservableObject {
         items.append(contentsOf: locations.map { MapItem.location($0) })
         items.append(contentsOf: commentService.comments.map { MapItem.comment($0) })
         annotationItems = items
-    }
-    
-    // Add sample comments for demo
-    private func addSampleComments() {
-        commentService.addSampleComments()
     }
     
     private func setupLocationManager() {

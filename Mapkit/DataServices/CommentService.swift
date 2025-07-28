@@ -166,19 +166,4 @@ class CommentService: ObservableObject {
         }
     }
     
-    /// サンプルコメントを追加（デモ用）
-    func addSampleComments() {
-        let sampleComments = [
-            Comment(text: "鎌倉大仏、迫力満点です！", coordinate: CLLocationCoordinate2D(latitude: 35.3163, longitude: 139.5362)),
-            Comment(text: "鶴岡八幡宮、静寂な雰囲気が素晴らしい", coordinate: CLLocationCoordinate2D(latitude: 35.3258, longitude: 139.5577)),
-            Comment(text: "ずっと変わらない味と食感　サブレーの原点にして頂点。本店限定の鳩サブレホルダーもGET！", coordinate: CLLocationCoordinate2D(latitude: 35.3195, longitude: 139.5469))
-        ]
-        
-        for comment in sampleComments {
-            if !comments.contains(where: { $0.coordinate.latitude == comment.coordinate.latitude && $0.coordinate.longitude == comment.coordinate.longitude }) {
-                addCommentOptimistically(comment)
-            }
-        }
-    }
-
 } 
